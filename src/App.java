@@ -164,8 +164,10 @@ public class App {
         FileWriter fileOutput = new FileWriter("database/transaction.txt", true);
         BufferedWriter bufferOutput = new BufferedWriter(fileOutput);
 
+        boolean ulang = true;
         String jenis = null, ukuran = null, jumlah = null, harga = null;
-        Integer total, disc = 0;
+        Integer totalBayar, disc = 0, subtotal, totalDisc;
+
         System.out.println("===============================================");
         System.out.println("| jenis susu |    Harga sesuai ukuran susu    |");
         System.out.println("|             =================================");
@@ -175,7 +177,7 @@ public class App {
         System.out.println("|  Bendera B | Rp15000  | Rp19000   | Rp23000 |");
         System.out.println("|  SGM C     | Rp15000  | Rp18000   | Rp22000 |");
         System.out.println("===============================================\n");
-        boolean ulang = true;
+
         while (ulang) {
             while (ulang) {
                 System.out.print("masukkan jenis Susu (A-B)> ");
@@ -219,14 +221,15 @@ public class App {
                 disc = 2;
                 System.out.println("anda mendapat diskon 2%");
             }
-            total = (Integer.parseInt(harga) * Integer.parseInt(jumlah))
-                    - ((Integer.parseInt(harga) * Integer.parseInt(jumlah)) * disc / 100);
+            subtotal = Integer.parseInt(harga) * Integer.parseInt(jumlah);
+            totalDisc = subtotal * disc / 100;
+            totalBayar = subtotal - totalDisc;
 
-            System.out.println("total harga " + total);
+            System.out.println("total harga yang harus dibayar" + totalBayar);
             Boolean buy = getYesOrNo("apakah anda ingin membayarnya (y/n)>");
             if (buy) {
                 bufferOutput.write(noPenjualan() + "," + jenis + "," + ukuran + "," + harga + "," + jumlah + "," + disc
-                        + "," + total);
+                        + "," + totalBayar);
                 bufferOutput.newLine();
                 bufferOutput.flush();
                 System.out.println("berhasil membeli data disimpan di menu tampilkan transaksi!!");
